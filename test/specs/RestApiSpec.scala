@@ -1,16 +1,15 @@
 package specs
 
-import helpers.GuiceTestContext
+import helpers.DbCleanup
 import models.JsonCombinators
 import org.scalatest.TestSuite
 import play.api.http.Writeable
 import play.api.mvc.{ AnyContentAsEmpty, Headers, Result }
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{ route, _ }
-
 import scala.concurrent.Future
 
-trait RestApiSpec extends BaseSpec with GuiceTestContext with JsonCombinators {
+trait RestApiSpec extends DbCleanup with JsonCombinators {
   this: TestSuite =>
   private val printInputs = false
 

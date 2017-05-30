@@ -88,4 +88,6 @@ class SnakesLaddersTest extends FeatureSpec with RestApiSpec with GivenWhenThen 
     status(moveResponse) shouldBe OK
     contentAsJson(moveResponse).validate[MoveResult].asOpt.value
   }
+
+  override protected val cleanupCollections = Seq(playerDao, gameSetupDao, gameInstanceDao)
 }
