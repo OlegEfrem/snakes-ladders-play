@@ -2,13 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
-
+# Endpoints to create and play new game
 PUT     /player                     controllers.Player.newPlayer
-GET     /player/:playerEmail        controllers.Player.getPlayerBy(playerEmail)
+PUT     /game                       controllers.Game.newGameForPlayer
+POST    /game/move                  controllers.Game.newMove
 
-PUT     /game                       controllers.Game.newGameSetupForPlayer
+# Endpoints to retrieve a saved game
+GET     /player/:playerEmail        controllers.Player.getPlayerBy(playerEmail)
 GET     /game/setups                controllers.Game.getGameSetupsByPlayer
 GET     /game                       controllers.Game.getGameByGameSetup
-GET     /games                      controllers.Game.getGamesByPlayer
 GET     /game/instance              controllers.Game.getLastGameInstanceForGameSetup
-POST    /game/move                  controllers.Game.newMove

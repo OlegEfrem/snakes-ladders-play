@@ -1,14 +1,16 @@
 package specs
 
+import helpers.GuiceTestContext
+import models.JsonCombinators
 import org.scalatest.TestSuite
-import org.scalatestplus.play.guice.GuiceOneAppPerTest
 import play.api.http.Writeable
 import play.api.mvc.{ AnyContentAsEmpty, Headers, Result }
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{ route, _ }
+
 import scala.concurrent.Future
 
-trait RestApiSpec extends BaseSpec with GuiceOneAppPerTest {
+trait RestApiSpec extends BaseSpec with GuiceTestContext with JsonCombinators {
   this: TestSuite =>
   private val printInputs = false
 

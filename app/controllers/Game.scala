@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject._
+
 import controllers.helpers.ApiController
 import play.api.libs.json.JsValue
 import play.api.mvc._
@@ -8,34 +9,10 @@ import service.SnakesLaddersService
 
 @Singleton
 class Game @Inject() (service: SnakesLaddersService) extends ApiController {
-
-  def newGameSetupForPlayer(): Action[JsValue] = Action.async(parse.json) { implicit request =>
+  //Start of operations to create and play a new game
+  def newGameForPlayer(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     readFromRequest[models.Player] { player =>
-      created(service.createGameSetupFor(player))
-    }
-  }
-
-  def getGameSetupsByPlayer: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    readFromRequest[models.Player] { player =>
-      ok(service.getGameSetupsFor(player))
-    }
-  }
-
-  def getGameByGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    readFromRequest[models.GameSetup] { gameSetup =>
-      maybeItem(service.getGameFor(gameSetup))
-    }
-  }
-
-  def getGamesByPlayer: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    readFromRequest[models.Player] { player =>
-      ok(service.getGamesFor(player))
-    }
-  }
-
-  def getLastGameInstanceForGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
-    readFromRequest[models.GameSetup] { gameSetup =>
-      ok(service.getLastGameInstanceFor(gameSetup))
+      created(service.createGameFor(player))
     }
   }
 
@@ -44,5 +21,26 @@ class Game @Inject() (service: SnakesLaddersService) extends ApiController {
       ok(service.newMove(newMove))
     }
   }
+  //End of operations to create and play a new game
+
+  //Start of operations to retrieve saved games
+  def getGameSetupsByPlayer: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.Player] { player =>
+      ok(service.getGameSetupsFor(player))
+    }
+  }
+
+  def getGameByGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.GameSetup] { gameSetup =>
+      ok(service.getGameFor(gameSetup))
+    }
+  }
+
+  def getLastGameInstanceForGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.GameSetup] { gameSetup =>
+      ok(service.getLastGameInstanceFor(gameSetup))
+    }
+  }
+  //End of operations to retrieve saved games
 
 }

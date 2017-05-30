@@ -10,7 +10,7 @@ case class Player private (_id: BSONObjectID, name: String, email: String, dateO
   def this(name: String, email: String, dateOfBirth: LocalDate) = this(Generator.newBSONObjectID(), name, email, dateOfBirth)
 }
 
-case class Game(setup: GameSetup, instances: List[GameInstance])
+case class Game(setup: GameSetup, instances: Seq[GameInstance])
 
 case class GameSetup private (_id: BSONObjectID, board: Board, playerId: BSONObjectID) {
   def this(board: Board, playerId: BSONObjectID) = this(Generator.newBSONObjectID(), board, playerId)
@@ -22,7 +22,7 @@ case class GameInstance private (_id: BSONObjectID, gameId: BSONObjectID, player
 
 case class MoveResult(nextGameInstance: GameInstance, winner: Option[Player] = None)
 
-case class NewMove(player: Player, numberOfMoves: Int, prevGameInstance: GameInstance)
+case class NewMove(player: Player, numberOfMoves: Int, prevGameInstance: GameInstance, gameSetup: GameSetup)
 
 trait JsonCombinators {
   import reactivemongo.play.json.BSONFormats.BSONObjectIDFormat
