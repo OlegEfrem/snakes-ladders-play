@@ -2,7 +2,7 @@ package bdd
 
 import helpers.DbAccess
 import models._
-import org.scalatest.{FeatureSpec, GivenWhenThen}
+import org.scalatest.{ FeatureSpec, GivenWhenThen }
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 import specs.RestApiSpec
@@ -49,18 +49,24 @@ class SnakesLaddersTest extends FeatureSpec with RestApiSpec with GivenWhenThen 
       info("So that there is an element of chance in the game")
 
       Given("the game is started")
-      val game = createGame(createPlayer)
+      val player = createPlayer
+      val game = createGame(player)
       When("the player rolls a die")
-/*      val diceRollResponse = routeGET("/dice/roll")
-      status(diceRollResponse) shouldBe OK*/
+      val diceRollResponse = routeGET("/dice/roll")
+      status(diceRollResponse) shouldBe OK
       Then("the result should be between 1-6 inclusive")
- /*     val diceResult = (contentAsJson(diceRollResponse) \ "diceResult").as[Int]
+      val diceResult = (contentAsJson(diceRollResponse) \ "diceResult").as[Int]
       diceResult should be >= 1
-      diceResult should be <= 6*/
+      diceResult should be <= 6
 
       Given("the player rolls a 4")
+      val gameInstance = game.instances.head
+      val diceResult1 = 4
       When("they move their token")
+      val moveResult = makeMove(player, game, gameInstance, diceResult1)
       Then("the token should move 4 spaces")
+      val expectedPosition = gameInstance.playerPosition + diceResult1
+      moveResult.nextGameInstance.playerPosition shouldBe expectedPosition
     }
 
     scenario("Player Can Win the Game") {
