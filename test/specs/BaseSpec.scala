@@ -1,8 +1,9 @@
 package specs
 
-import data.TestData
+import helpers.TestData
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.{ Matchers, OptionValues }
+
 import scala.concurrent.duration._
 
 trait BaseSpec extends Matchers with ScalaFutures with OptionValues with TestData {

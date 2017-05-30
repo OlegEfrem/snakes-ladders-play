@@ -20,13 +20,17 @@ scalacOptions ++=
 
 libraryDependencies ++= Seq(
   filters,
+  cache,
   "org.scalactic" %% "scalactic" % "3.0.1",
-  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.14",
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.12.3",
+  "net.codingwell" %% "scala-guice" % "4.0.1",
   "org.scalatest" %% "scalatest" % "3.0.1" % "test",
   "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.4.2" % Test,
   "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % Test
 )
+
+routesGenerator := InjectedRoutesGenerator
 
 // run scalastyle at compile time
 lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
