@@ -25,7 +25,7 @@ class DefaultSnakesLaddersService @Inject() (
 
   def getLastGameInstanceFor(gameSetup: GameSetup): Future[Option[GameInstance]] = ???
 
-  def newMove(player: Player, numberOfMoves: Int, prevGameInstance: GameInstance): Future[MoveResult] = ???
+  def newMove(newMove: NewMove): Future[MoveResult] = ???
 
   def getGamesFor(player: Player): Future[Seq[Game]] = ???
 

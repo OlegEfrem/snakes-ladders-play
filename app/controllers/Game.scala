@@ -2,32 +2,47 @@ package controllers
 
 import javax.inject._
 import controllers.helpers.ApiController
+import play.api.libs.json.JsValue
 import play.api.mvc._
 import service.SnakesLaddersService
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
 @Singleton
 class Game @Inject() (service: SnakesLaddersService) extends ApiController {
 
-  def newGameFor(playerName: String) = Action.async(parse.json) { implicit request =>
+  def newGameSetupForPlayer(): Action[JsValue] = Action.async(parse.json) { implicit request =>
     readFromRequest[models.Player] { player =>
-      Created(service.createPlayer(player))
+      created(service.createGameSetupFor(player))
     }
   }
 
-  def getGamesFor(playerName: String): Action[AnyContent] = Action { implicit request =>
-    NotImplemented("Operation not implemented")
+  def getGameSetupsByPlayer: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.Player] { player =>
+      ok(service.getGameSetupsFor(player))
+    }
   }
 
-  def getGameBy(gameId: String): Action[AnyContent] = Action { implicit request =>
-    NotImplemented("Operation not implemented")
+  def getGameByGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.GameSetup] { gameSetup =>
+      maybeItem(service.getGameFor(gameSetup))
+    }
   }
 
-  def newMoveFor(gameId: String, playerId: String): Action[AnyContent] = Action { implicit request =>
-    NotImplemented("Operation not implemented")
+  def getGamesByPlayer: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.Player] { player =>
+      ok(service.getGamesFor(player))
+    }
+  }
+
+  def getLastGameInstanceForGameSetup: Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.GameSetup] { gameSetup =>
+      ok(service.getLastGameInstanceFor(gameSetup))
+    }
+  }
+
+  def newMove(): Action[JsValue] = Action.async(parse.json) { implicit request =>
+    readFromRequest[models.NewMove] { newMove =>
+      ok(service.newMove(newMove))
+    }
   }
 
 }

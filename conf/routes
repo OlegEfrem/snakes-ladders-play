@@ -3,11 +3,12 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-GET     /player/:name               controllers.Player.getPlayerBy(name)
-PUT     /player/:name               controllers.Player.newPlayer(name)
+PUT     /player                     controllers.Player.newPlayer
+GET     /player/:playerEmail        controllers.Player.getPlayerBy(playerEmail)
 
-GET     /games/:playerName          controllers.Game.getGamesFor(playerName)
-GET     /game/:id                   controllers.Game.getGameBy(id)
-PUT     /game/:playerName           controllers.Game.newGameFor(playerName)
-
-POST    /move/:gameId/:playerName     controllers.Game.newMoveFor(gameId, playerName)
+PUT     /game                       controllers.Game.newGameSetupForPlayer
+GET     /game/setups                controllers.Game.getGameSetupsByPlayer
+GET     /game                       controllers.Game.getGameByGameSetup
+GET     /games                      controllers.Game.getGamesByPlayer
+GET     /game/instance              controllers.Game.getLastGameInstanceForGameSetup
+POST    /game/move                  controllers.Game.newMove

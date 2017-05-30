@@ -22,6 +22,8 @@ case class GameInstance private (_id: BSONObjectID, gameId: BSONObjectID, player
 
 case class MoveResult(nextGameInstance: GameInstance, winner: Option[Player] = None)
 
+case class NewMove(player: Player, numberOfMoves: Int, prevGameInstance: GameInstance)
+
 trait JsonCombinators {
   import reactivemongo.play.json.BSONFormats.BSONObjectIDFormat
 
@@ -42,6 +44,9 @@ trait JsonCombinators {
 
   implicit val moveResultWrites: Writes[MoveResult] = Json.writes[MoveResult]
   implicit val moveResultReads: Reads[MoveResult] = Json.reads[MoveResult]
+
+  implicit val newMmoveResultWrites: Writes[NewMove] = Json.writes[NewMove]
+  implicit val newMoveResultReads: Reads[NewMove] = Json.reads[NewMove]
 
 }
 
