@@ -20,7 +20,6 @@ scalacOptions ++=
 
 libraryDependencies ++= Seq(
   filters,
-  cache,
   "org.scalactic" %% "scalactic" % "3.0.1",
   "org.reactivemongo" %% "play2-reactivemongo" % "0.12.3",
   "net.codingwell" %% "scala-guice" % "4.0.1",

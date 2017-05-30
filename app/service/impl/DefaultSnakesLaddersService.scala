@@ -33,8 +33,13 @@ class DefaultSnakesLaddersService @Inject() (
 
   def newMove(newMove: NewMove): Future[MoveResult] = {
     val newPosition = newMove.prevGameInstance.playerPosition + newMove.numberOfMoves
-    val nextGameIntance = new GameInstance(newMove.gameSetup._id, newMove.player._id, newPosition)
-    gameInstanceDao.create(nextGameIntance).map(gi => MoveResult(gi, None))
+    val (nextPosition, winner) = newPosition match {
+      case 100 => (100, Some(newMove.player))
+      case p if p < 100 => (p, None)
+      case _ => (newMove.prevGameInstance.playerPosition, None)
+    }
+    val nextGameInstance = new GameInstance(newMove.gameSetup._id, newMove.player._id, nextPosition)
+    gameInstanceDao.create(nextGameInstance).map(gi => MoveResult(gi, winner))
   }
 
   def getGamesFor(player: Player): Future[Seq[Game]] = ???

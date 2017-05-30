@@ -3,7 +3,8 @@ package controllers
 import javax.inject._
 
 import controllers.helpers.ApiController
-import play.api.libs.json.JsValue
+import models.Dice
+import play.api.libs.json.{ JsValue, Json }
 import play.api.mvc._
 import service.SnakesLaddersService
 
@@ -21,6 +22,11 @@ class Game @Inject() (service: SnakesLaddersService) extends ApiController {
       ok(service.newMove(newMove))
     }
   }
+
+  def rollDice(): Action[AnyContent] = Action { implicit request =>
+    Ok(Json.obj("diceResult" -> Dice.roll))
+  }
+
   //End of operations to create and play a new game
 
   //Start of operations to retrieve saved games
@@ -41,6 +47,7 @@ class Game @Inject() (service: SnakesLaddersService) extends ApiController {
       ok(service.getLastGameInstanceFor(gameSetup))
     }
   }
+
   //End of operations to retrieve saved games
 
 }

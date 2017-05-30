@@ -6,6 +6,7 @@
 PUT     /player                     controllers.Player.newPlayer
 PUT     /game                       controllers.Game.newGameForPlayer
 POST    /game/move                  controllers.Game.newMove
+GET     /dice/roll                  controllers.Game.rollDice
 
 # Endpoints to retrieve a saved game
 GET     /player/:playerEmail        controllers.Player.getPlayerBy(playerEmail)
