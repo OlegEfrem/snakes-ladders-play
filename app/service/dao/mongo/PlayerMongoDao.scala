@@ -1,19 +1,19 @@
 package service.dao.mongo
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.{ Inject, Singleton }
 import models.Player
 import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
-import reactivemongo.api.indexes.{Index, IndexType}
+import reactivemongo.api.indexes.{ Index, IndexType }
 import reactivemongo.bson.BSONObjectID
 import reactivemongo.play.json._
 import reactivemongo.play.json.collection.JSONCollection
 import service.dao.PlayerDao
 import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{ Await, Future }
 
 @Singleton
-class PlayerMongoDao @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends MongoDao with PlayerDao {
+class PlayerMongoDao @Inject() (val reactiveMongoApi: ReactiveMongoApi) extends MongoDao with PlayerDao {
   private val players: Future[JSONCollection] = database.map(db => db.collection[JSONCollection]("players"))
   Await.result(players.map(_.indexesManager.ensure(Index(Seq("email" -> IndexType.Text), unique = true))), 10 seconds)
 

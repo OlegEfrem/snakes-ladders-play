@@ -1,13 +1,13 @@
 package service.dao.mongo
 
-import models.{Generator, Player}
+import models.{ Generator, Player }
 import service.dao.PlayerDao
 import specs.IntegrationSpec
 
 class PlayerMongoDaoTest extends IntegrationSpec {
   private val dao: PlayerDao = new PlayerMongoDao(reactiveMongoApi)
 
-  "PlayerMongoDao" should {
+  "PlayerMongoDao:" should {
 
     "save a player" in {
       val player = new Player(randomString, randomEmail, randomDateOfBirth)
