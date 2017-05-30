@@ -1,13 +1,13 @@
 package service.dao.mongo
 
-import models.{ Board, GameInstance, Generator }
+import models.{ GameInstance, Generator }
 import org.joda.time.DateTime
 import reactivemongo.bson.BSONObjectID
-import service.dao.GameInstanceDao
 import specs.IntegrationSpec
 
 class GameInstanceMongoDaoTest extends IntegrationSpec {
-  private val dao: GameInstanceDao = new GameInstanceMongoDao(reactiveMongoApi)
+  private val dao = new GameInstanceMongoDao(reactiveMongoApi)
+  override protected val cleanupCollections = Seq(dao)
 
   "gameInstanceMongoDao:" should {
 

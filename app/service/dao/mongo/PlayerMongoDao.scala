@@ -14,35 +14,35 @@ import scala.concurrent.{ Await, Future }
 
 @Singleton
 class PlayerMongoDao @Inject() (val reactiveMongoApi: ReactiveMongoApi) extends MongoDao with PlayerDao {
-  private val players: Future[JSONCollection] = database.map(db => db.collection[JSONCollection]("players"))
-  Await.result(players.map(_.indexesManager.ensure(Index(Seq("email" -> IndexType.Text), unique = true))), 10 seconds)
+  override val dbCollection: Future[JSONCollection] = database.map(db => db.collection[JSONCollection]("players"))
+  Await.result(dbCollection.map(_.indexesManager.ensure(Index(Seq("email" -> IndexType.Text), unique = true))), 10 seconds)
 
   override def create(player: Player): Future[Player] = {
-    players.flatMap(_
+    dbCollection.flatMap(_
       .insert(player))
       .map(_ => player)
   }
 
   override def readBy(email: String): Future[Option[Player]] = {
-    players.flatMap(_
+    dbCollection.flatMap(_
       .find(Json.obj("email" -> email))
       .one[Player])
   }
 
   override def readBy(id: BSONObjectID): Future[Option[Player]] = {
-    players.flatMap(_
+    dbCollection.flatMap(_
       .find(Json.obj("_id" -> id))
       .one[Player])
   }
 
   override def update(player: Player): Future[Unit] = {
-    players.flatMap(_
+    dbCollection.flatMap(_
       .update(Json.obj("_id" -> player._id), player))
       .map(_ => ())
   }
 
   override def delete(player: Player): Future[Unit] = {
-    players.flatMap(_
+    dbCollection.flatMap(_
       .remove(Json.obj("_id" -> player._id)))
       .map(_ => ())
   }

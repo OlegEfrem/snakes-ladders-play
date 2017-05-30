@@ -13,34 +13,34 @@ import scala.concurrent.Future
 
 @Singleton
 class GameSetupMongoDao @Inject() (val reactiveMongoApi: ReactiveMongoApi) extends MongoDao with GameSetupDao {
-  private val gameSetups: Future[JSONCollection] = database.map(db => db.collection[JSONCollection]("game_setups"))
+  override val dbCollection: Future[JSONCollection] = database.map(db => db.collection[JSONCollection]("game_setups"))
 
   override def create(gameSetup: GameSetup): Future[GameSetup] = {
-    gameSetups.flatMap(_.insert(gameSetup))
+    dbCollection.flatMap(_.insert(gameSetup))
       .map(_ => gameSetup)
   }
 
   override def readByGameId(gameId: BSONObjectID): Future[Option[GameSetup]] = {
-    gameSetups.flatMap(_
+    dbCollection.flatMap(_
       .find(Json.obj("_id" -> gameId))
       .one[GameSetup])
   }
 
   override def readByPlayerId(playerId: BSONObjectID): Future[Seq[GameSetup]] = {
-    gameSetups.flatMap(_
+    dbCollection.flatMap(_
       .find(Json.obj("playerId" -> playerId))
       .cursor[GameSetup]()
       .collect[List](Int.MaxValue, Cursor.FailOnError[List[GameSetup]]()))
   }
 
   override def deleteByPlayerId(playerId: BSONObjectID): Future[Unit] = {
-    gameSetups.flatMap(_
+    dbCollection.flatMap(_
       .remove(Json.obj("playerId" -> playerId)))
       .map(_ => ())
   }
 
   override def deleteByGameId(gameId: BSONObjectID): Future[Unit] = {
-    gameSetups.flatMap(_
+    dbCollection.flatMap(_
       .remove(Json.obj("_id" -> gameId)))
       .map(_ => ())
   }

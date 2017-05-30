@@ -1,11 +1,11 @@
 package service.dao.mongo
 
 import models.{ Generator, Player }
-import service.dao.PlayerDao
 import specs.IntegrationSpec
 
 class PlayerMongoDaoTest extends IntegrationSpec {
-  private val dao: PlayerDao = new PlayerMongoDao(reactiveMongoApi)
+  private val dao = new PlayerMongoDao(reactiveMongoApi)
+  override protected val cleanupCollections = Seq(dao)
 
   "PlayerMongoDao:" should {
 
