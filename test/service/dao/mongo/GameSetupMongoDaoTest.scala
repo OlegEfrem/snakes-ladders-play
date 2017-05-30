@@ -21,7 +21,7 @@ class GameSetupMongoDaoTest extends IntegrationSpec {
       dao.readByGameId(gameSetup._id).futureValue.value shouldBe gameSetup
     }
 
-    "read multiple gameSetup entries by userId" in {
+    "read multiple gameSetup entries by playerId" in {
       val gameSetup = createGameSetupInDb()
       val gameSetup2 = createGameSetupInDb(gameSetup.copy(_id = Generator.newBSONObjectID()))
       dao.readByPlayerId(gameSetup.playerId).futureValue should contain theSameElementsAs Seq(gameSetup, gameSetup2)
@@ -35,7 +35,7 @@ class GameSetupMongoDaoTest extends IntegrationSpec {
 
     }
 
-    "delete gameSetup data by userId" in {
+    "delete gameSetup data by playerId" in {
       val gameSetup = createGameSetupInDb()
       val gameSetup2 = createGameSetupInDb(gameSetup.copy(_id = Generator.newBSONObjectID()))
       dao.readByPlayerId(gameSetup.playerId).futureValue should contain theSameElementsAs Seq(gameSetup, gameSetup2)

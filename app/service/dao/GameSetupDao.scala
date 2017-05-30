@@ -11,7 +11,7 @@ trait GameSetupDao {
 
   def readByGameId(gameId: BSONObjectID): Future[Option[GameSetup]]
 
-  def readByPlayerId(playeId: BSONObjectID): Future[Seq[GameSetup]]
+  def readByPlayerId(playerId: BSONObjectID): Future[Seq[GameSetup]]
 
   def deleteByPlayerId(playerId: BSONObjectID): Future[Unit]
 
